@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        font-size: 18px;
+    }
+    #wrap{
+        width:300px;
+    }
+    input{
+        width:50px;
+        height:50px;
+        margin:10px;
+    }
+    .show{
+        text-align: right;
+        margin:20px
+    }
+</style>
+<body>
+<div id="wrap">
+    <p class="show">0</p>
+    <input type="button" class="num" value="1">
+    <input type="button" class="num" value="2">
+    <input type="button" class="num" value="3">
+    <input type="button" class="fuhao" value="+">
+    <input type="button" class="num" value="4">
+    <input type="button" class="num" value="5">
+    <input type="button" class="num" value="6">
+    <input type="button" class="fuhao" value="-">
+    <input type="button" class="num" value="7">
+    <input type="button" class="num" value="8">
+    <input type="button" class="num" value="9">
+    <input type="button" class="fuhao" value="*">
+    <input type="button" class="num" value="0">
+    <input type="button" class="num" value=".">
+    <input type="button" id="result" value="=">
+    <input type="button" class="fuhao" value="/">
+</div>
+</body>
+<script>
+    let oShow = document.getElementsByClassName('show')[0];
+    let oNum = document.getElementsByClassName('num');
+    let oFuhao = document.getElementsByClassName('fuhao');
+    let result = document.getElementById('result');
+
+    let show = '';//result
+    let firstNum = '';//第一个数字
+    let secondtNum = '';//第二个数字
+    let fuhao = '';//运算符
+
+    //循环所有数字按钮
+    for(let i = 0;i < oNum.length; i++){
+        oNum[i].onclick = function () {
+            //点击时 如果有符号 赋值第二个数字
+            if(fuhao){
+                oShow.innerHTML += this.value;
+                secondtNum += this.value;
+            }else{
+                show += this.value;
+                oShow.innerHTML = show;
+            }
+        }
+    }
+
+    //循环所有符号
+    for(let i = 0;i < oFuhao.length; i++){
+        oFuhao[i].onclick = function () {
+            //点击符号赋值
+            fuhao = this.value;
+            //第一个数字赋值
+            firstNum = oShow.innerHTML;
+            //内容更新
+            oShow.innerHTML += this.value;
+
+        }
+    }
+
+    //结果获取 判断符号类型
+    result.onclick = function () {
+        let res = 0;
+        switch (fuhao){
+            case '+':
+                res = (firstNum * 1) + (secondtNum * 1);
+                break;
+            case '-':
+                res = firstNum - secondtNum;
+                break;
+            case '*':
+                res = firstNum * secondtNum;
+                break;
+            case '/':
+                if(secondtNum != "0"){
+                    res = firstNum / secondtNum;
+                }else{
+                    alert('除数不能为0')
+                }
+                break;
+        }
+        //修改结果
+        oShow.innerHTML = res;
+
+        show = '';//初始化显示
+        firstNum = res;//第一个数字设置为结果
+        secondtNum = '';//第二个数字设为结果
+        fuhao = '';//运算符为空
+    }
+</script>
+</html>
